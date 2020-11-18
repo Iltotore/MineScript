@@ -8,7 +8,7 @@ import com.google.inject.Inject
 import io.github.iltotore.script.Fun.sideEffect
 import io.github.iltotore.script.sponge.command._
 import io.github.iltotore.script.{Script, ScriptLoader}
-import org.graalvm.polyglot.{Context, Engine, HostAccess, Language, PolyglotAccess}
+import org.graalvm.polyglot._
 import org.simpleyaml.configuration.ConfigurationSection
 import org.simpleyaml.configuration.file.YamlConfiguration
 import org.slf4j.Logger
@@ -110,7 +110,7 @@ class Main @Inject()(logger: Logger) {
         GenericArguments.choices(
           Text.of("language"),
           () => languages.keys.map(_.getId).asJavaCollection,
-          (id: String) => languages.keys.find(_.getId equals id).get
+          (id: String) => languages.keys.find(_.getId equals id).orNull
         ),
         GenericArguments.optional(GenericArguments.string(Text.of("name")))
       )
