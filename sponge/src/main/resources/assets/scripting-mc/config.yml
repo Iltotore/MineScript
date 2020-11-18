@@ -1,0 +1,10 @@
+permissions:
+  # Allowed permissions: all, create-process, create-thread, experimental-options, class-loading, io, native.
+  file:
+    all: true
+  minecraft:
+    io: true
+    native: true
+console-prompt: # Listed commands will require a console authorization to be executed.
+  - book
+  - save

@@ -1,0 +1,45 @@
+plugins {
+    id 'org.spongepowered.plugin' version '0.9.0'
+}
+
+Properties localProperties = new Properties()
+localProperties.load(file('local.properties').newDataInputStream())
+
+for(Map.Entry<String, ?> entry : localProperties.entrySet()){
+    project.ext[entry.getKey()] = entry.getValue()
+}
+
+repositories {
+    maven { url = 'https://jitpack.io/'}
+}
+
+dependencies {
+    implementation project(':core')
+    implementation 'com.github.Carleslc.Simple-YAML:Simple-Yaml:1.7.2'
+    compileOnly 'org.spongepowered:spongeapi:7.3.0'
+    annotationProcessor 'org.spongepowered:spongeapi:7.3.0'
+}
+
+sponge {
+    plugin {
+        id = 'scripting-mc'
+        meta {
+            authors = ['Il_totore']
+        }
+    }
+}
+
+String server = project.property("sponge.home")
+
+task copyPlugin(type: Copy) {
+    from "$buildDir/libs/$archivesBaseName-$version-all.jar"
+    into "$server/mods/plugins"
+    dependsOn shadowJar
+}
+
+shadowJar {
+    project.configurations.implementation.canBeResolved = true
+    configurations = [project.configurations.implementation]
+    from('build/tmp/generateMetadata')
+    relocate 'scala', 'io.github.iltotore.pixelmonuhc.scala' //Avoid Scala version clash with forge (which uses 2.11)
+}

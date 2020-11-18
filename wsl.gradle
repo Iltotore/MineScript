@@ -1,0 +1,8 @@
+ext.WSLExec = WSLExec
+
+class WSLExec extends Exec {
+
+    {
+        setExecutable("wsl.exe")
+    }
+}

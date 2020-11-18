@@ -1,0 +1,50 @@
+apply from: "$rootProject.rootDir/scala.gradle"
+
+ext {
+    dottyVersion = '0.26.0'
+    dottyBuild = '20200630-6cbb458-NIGHTLY'
+    dottySourceTree = fileTree(dir: "/src/main/scala", include: "**/*.scala")
+    projectJars = fileTree(dir: "/lib", include: "**/*.jar")
+    classesDir = file("${buildDir}/classes")
+
+    dottyModule = this.&dottyModule
+    dottyDependency = this.&dottyDependency
+}
+
+afterEvaluate {
+    dependencies {
+        implementation dottyModule('compiler')
+    }
+
+    task createClassesDir {
+        doLast {
+            mkdir classesDir
+        }
+    }
+
+    task compileDotty(type: JavaExec) {
+        dependsOn compileJava
+        dependsOn createClassesDir
+
+        description "Compile Scala source files"
+
+        classpath sourceSets.main.runtimeClasspath
+        String sources = dottySourceTree.files.join("\" \"").replaceAll("\\\\", "/")
+
+        main "dotty.tools.dotc.Main"
+
+        jvmArgs "-Dscala.usejavacp=true"
+
+        args '-deprecation', '-encoding', 'UTF8', '-d', classesDir, sources
+    }
+
+    compileScala.enabled = false
+}
+
+def dottyModule(String id) {
+    dottyDependency('dotty-' + id)
+}
+
+def dottyDependency(String id) {
+    return "ch.epfl.lamp:${id}_${getMajorVersion(dottyVersion)}:$dottyVersion-bin-$dottyBuild"
+}

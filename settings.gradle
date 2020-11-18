@@ -1,0 +1,3 @@
+rootProject.name = 'MineScript'
+include 'core', 'sponge'
+project(':sponge').name = 'MineScript-Sponge'
