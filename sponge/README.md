@@ -16,5 +16,8 @@ Here is a list of MineScript-Sponge's commands:
 - Thanks to the cache, next script executions should be faster than the first one.
 - An example script `sponge/hello.py` is present by default.
 
+# Requirements
+See [Global project's requirements](../README.md#Requirements)
+
 # Useful links
 - [Global project](../README.md)

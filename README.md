@@ -27,3 +27,9 @@ Scripts inheritance is like a tree. Each node inherit from their parent's templa
     + template.py
     + hello.py #Inherit from root/template.py and root/sponge/template.py
 ```
+
+# Requirements
+This project requires [GraalVM](https://github.com/oracle/graal). To use a language, you will need to install its Graal implementation.
+For example, you need [Graal Python](https://github.com/graalvm/graalpython) to execute Python scripts.
+
+Please note that some Graal extensions don't support Windows. You can use WSL as an alternative.
